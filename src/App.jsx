@@ -1,18 +1,16 @@
 import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
-import ApplyJob from './pages/ApplyJob'
-import Applications from'./pages/Applications'
+// import other pages here as you create them
+
 const App = () => {
   return (
-    <BrowserRouter>
- 
+    <div>
       <Routes>
-        <Route path='/' element={<Home/> } />
-        <Route path='/apply-job/:id' element={<ApplyJob />} />
-        <Route path='/applications' element={<Applications />} />
+        <Route path='/' element={<Home />} />
+        {/* Add more <Route /> tags here for other pages */}
       </Routes>
-    </BrowserRouter>
+    </div>
   )
 }
 
