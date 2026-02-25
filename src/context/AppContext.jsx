@@ -1,19 +1,25 @@
-// src/context/AppContext.jsx
 import { createContext, useEffect, useState } from "react";
 import { jobsData } from "../assets/assets";
 
 export const AppContext = createContext();
 
 export const AppContextProvider = (props) => {
+
     const [jobs, setJobs] = useState([]);
-    const [filteredJobs, setFilteredJobs] = useState([]); // Must be initialized as []
-    const [currentPage, setCurrentPage] = useState(1);
-    const [searchFilter, setSearchFilter] = useState({ title: '', location: '' });
+    
+    // Recruiter Login Popup chupinchadaniki ee state kachithanga undali
+    const [showRecruiterLogin, setShowRecruiterLogin] = useState(false);
+
+    const [searchFilter, setSearchFilter] = useState({
+        title: '',
+        location: ''
+    });
+
     const [isSearched, setIsSearched] = useState(false);
 
+    // Jobs data fetch cheyadaniki function
     const fetchJobs = async () => {
         setJobs(jobsData);
-        setFilteredJobs(jobsData);
     };
 
     useEffect(() => {
@@ -22,10 +28,9 @@ export const AppContextProvider = (props) => {
 
     const value = {
         jobs, setJobs,
-        filteredJobs, setFilteredJobs,
-        currentPage, setCurrentPage,
         searchFilter, setSearchFilter,
-        isSearched, setIsSearched
+        isSearched, setIsSearched,
+        showRecruiterLogin, setShowRecruiterLogin, // Ivi Navbar & RecruiterLogin components ki chala important
     };
 
     return (

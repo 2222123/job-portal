@@ -1,14 +1,13 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
 import JobListing from '../components/JobListing'
 import AppDownload from '../components/AppDownload'
 import Footer from '../components/Footer'
 
-const Home = () => {
+const Home = ({ setShowRecruiterLogin }) => {
   return (
-    <div>
-      <Navbar />
+    <div className='min-h-screen'>
+      {/* Navbar ikkada nundi remove chesa */}
       <Hero />
       <JobListing />
       <AppDownload />
