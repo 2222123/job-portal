@@ -55,10 +55,10 @@ const Hero = () => {
   return (
     <div className='container 2xl:px-20 mx-auto my-10'>
       {/* HERO SECTION */}
-      <div className='bg-gradient-to-r from-blue-800 to-blue-950 text-white py-16 text-center mx-2 rounded-xl px-5'>
-        <h2 className='text-2xl md:text-4xl font-medium mb-4'>Over 10,000+ jobs to apply</h2>
-        <p className='mb-8 max-w-xl mx-auto text-sm font-light'>
-          Your Next Big Career Move Starts Right Here - Explore the Best Job Opportunities!
+      <div className='bg-gradient-to-r from-blue-500 to-white text-black py-16 text-center mx-2 rounded-xl px-5 shadow-2xl border border-white/20'>
+        <h2 className='text-3xl md:text-5xl font-extrabold mb-4 tracking-widest text-blue-600 drop-shadow-2xl'>Insider Jobs</h2>
+        <p className='mb-8 max-w-xl mx-auto text-base md:text-xl font-medium'>
+          This is your Insider Jobs portal — a fresh, sparkling entry to the career you deserve.
         </p>
 
         <div className='flex flex-col sm:flex-row items-center bg-white rounded text-gray-600 max-w-2xl mx-auto px-2 shadow-lg'>

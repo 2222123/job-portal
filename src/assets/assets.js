@@ -1,6 +1,29 @@
 import logo from "./logo.svg";
 import search_icon from "./search_icon.svg";
 import company_icon from "./company_icon.svg";
+import default_company_logo from "./default_company_logo.svg";
+import latest_jobs_icon from "./latest_jobs_icon.svg";
+import architect_icon from "./architect_icon.svg";
+import designer_icon from "./designer_icon.svg";
+import networking_icon from "./networking_icon.svg";
+import management_icon from "./management_icon.svg";
+import cybersecurity_icon from "./cybersecurity_icon.svg";
+import designing_icon from "./designing_icon.svg";
+import database_admin_icon from "./database_admin_icon.svg";
+import junior_frontend_icon from "./junior_frontend_icon.svg";
+import data_scientist_icon from "./data_scientist_icon.svg";
+import devops_icon from "./devops_icon.svg";
+import backend_engineer_icon from "./backend_engineer_icon.svg";
+import frontend_developer_icon from "./frontend_developer_icon.svg";
+import fullstack_senior_icon from "./fullstack_senior_icon.svg";
+import techsolutions_logo from "./icons/techsolutions_logo.svg";
+import digitalinnovators_logo from "./icons/digitalinnovators_logo.svg";
+import cloudinfra_logo from "./icons/cloudinfra_logo.svg";
+import quantum_logo from "./icons/quantum_logo.svg";
+import neuralsync_logo from "./icons/neuralsync_logo.svg";
+import nextgen_logo from "./icons/nextgen_logo.svg";
+import datapulse_logo from "./icons/datapulse_logo.svg";
+import securenet_logo from "./icons/securenet_logo.svg";
 import microsoft_logo from "./microsoft_logo.svg";
 import walmart_logo from "./walmart_logo.svg";
 import accenture_logo from "./accenture_logo.png";
@@ -69,7 +92,30 @@ export const assets = {
     lock_icon,
     samsung_logo,
     adobe_logo,
-    amazon_logo
+    amazon_logo,
+    default_company_logo,
+    latest_jobs_icon,
+    architect_icon,
+    designer_icon,
+    networking_icon,
+    management_icon,
+    cybersecurity_icon,
+    designing_icon,
+    database_admin_icon,
+    junior_frontend_icon,
+    data_scientist_icon,
+    devops_icon,
+    backend_engineer_icon,
+    frontend_developer_icon,
+    fullstack_senior_icon,
+    techsolutions_logo,
+    digitalinnovators_logo,
+    cloudinfra_logo,
+    quantum_logo,
+    neuralsync_logo,
+    nextgen_logo,
+    datapulse_logo,
+    securenet_logo
 }
 
 export const JobCategories = [

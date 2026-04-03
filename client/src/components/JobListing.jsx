@@ -11,6 +11,7 @@ const JobListing = () => {
     const [selectedCategories, setSelectedCategories] = useState([])
     const [selectedLocations, setSelectedLocations] = useState([])
     const [filteredJobs, setFilteredJobs] = useState([])
+    const [roleStats, setRoleStats] = useState({ total: 0, byRole: [] })
 
     // Function to handle Category selection
     const handleCategoryChange = (category) => {
@@ -36,11 +37,48 @@ const JobListing = () => {
         setCurrentPage(1) // Reset to page 1 on filter change
     }, [jobs, selectedCategories, selectedLocations, searchFilter])
 
+    useEffect(() => {
+        if (jobs && Array.isArray(jobs)) {
+            const totalJobs = jobs.length
+            const counts = jobs.reduce((acc, job) => {
+                const role = job.title || 'Unspecified Role'
+                acc[role] = (acc[role] || 0) + 1
+                return acc
+            }, {})
+
+            const byRole = Object.entries(counts)
+                .sort((a, b) => b[1] - a[1])
+                .map(([role, count]) => ({ role, count }))
+
+            setRoleStats({ total: totalJobs, byRole })
+        } else {
+            setRoleStats({ total: 0, byRole: [] })
+        }
+    }, [jobs])
+
     return (
         <div className='container 2xl:px-20 mx-auto flex flex-col lg:flex-row max-lg:space-y-8 py-8'>
             
             {/* Sidebar / Filters Section */}
             <div className='w-full lg:w-1/4 bg-white px-4'>
+                <div className='mb-6 p-4 rounded-lg bg-gradient-to-br from-indigo-100 via-purple-100 to-cyan-100 border border-indigo-200'>
+                    <h3 className='text-xl font-bold text-indigo-800 mb-2'>Job Counts by Role</h3>
+                    <p className='text-sm text-indigo-600 mb-3'>Total jobs and each role లో ప్రస్తుత openings.</p>
+                    <div className='flex items-center justify-between mb-1'>
+                        <span className='text-sm font-medium'>Total Jobs</span>
+                        <span className='text-lg font-bold text-blue-700'>{roleStats.total}</span>
+                    </div>
+                    <div className='space-y-1 max-h-48 overflow-y-auto pb-1'>
+                        {roleStats.byRole.slice(0, 8).map((item, index) => (
+                            <div key={`${item.role}-${index}`} className='flex items-center justify-between text-sm text-gray-800'>
+                                <span className='truncate'>{item.role}</span>
+                                <span className='text-blue-600 font-semibold'>{item.count}</span>
+                            </div>
+                        ))}
+                        {roleStats.byRole.length === 0 && <p className='text-gray-500 text-sm'>No jobs available yet.</p>}
+                    </div>
+                </div>
+
                 {/* Current Search Filters (Crosspills) */}
                 {isSearched && (searchFilter.title !== "" || searchFilter.location !== "") && (
                     <>

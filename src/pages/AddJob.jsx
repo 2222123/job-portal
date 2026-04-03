@@ -11,6 +11,7 @@ const AddJob = () => {
     const [category, setCategory] = useState('Programming');
     const [level, setLevel] = useState('Beginner level');
     const [salary, setSalary] = useState(0);
+    const [skills, setSkills] = useState('');
 
     const editorRef = useRef(null);
     const quillRef = useRef(null);
@@ -21,8 +22,9 @@ const AddJob = () => {
         e.preventDefault();
         try {
             const description = quillRef.current.root.innerHTML;
+            const skillsArray = skills.split(',').map(skill => skill.trim()).filter(skill => skill);
             const { data } = await axios.post(backendUrl + '/api/company/post-job', 
-                { title, description, location, category, level, salary },
+                { title, description, location, category, level, salary, skills: skillsArray },
                 { headers: { token: companyToken } }
             );
 
@@ -30,6 +32,7 @@ const AddJob = () => {
                 toast.success(data.message);
                 setTitle('');
                 setSalary(0);
+                setSkills('');
                 quillRef.current.root.innerHTML = "";
             } else {
                 toast.error(data.message);
@@ -64,6 +67,10 @@ const AddJob = () => {
                         <option value="Programming">Programming</option>
                         <option value="Data Science">Data Science</option>
                         <option value="Marketing">Marketing</option>
+                        <option value="Networking">Networking</option>
+                        <option value="Management">Management</option>
+                        <option value="CyberSecurity">CyberSecurity</option>
+                        <option value="Designing">Designing</option>
                     </select>
                 </div>
                 <div>
@@ -72,6 +79,10 @@ const AddJob = () => {
                         <option value="Bangalore">Bangalore</option>
                         <option value="Hyderabad">Hyderabad</option>
                         <option value="California">California</option>
+                        <option value="New York">New York</option>
+                        <option value="Mumbai">Mumbai</option>
+                        <option value="Chennai">Chennai</option>
+                        <option value="Washington">Washington</option>
                     </select>
                 </div>
                 <div>
@@ -87,6 +98,11 @@ const AddJob = () => {
             <div>
                 <p className='mb-2'>Job Salary</p>
                 <input min={0} className='w-full sm:w-[120px] px-3 py-2 border-2 border-gray-300 rounded' type="Number" placeholder='2500' onChange={e => setSalary(e.target.value)} value={salary} />
+            </div>
+
+            <div className='w-full'>
+                <p className='mb-2'>Required Skills (Comma separated)</p>
+                <input className='w-full max-w-lg px-3 py-2 border-2 border-gray-300 rounded' type="text" placeholder='e.g. React, Node.js, MongoDB, JavaScript' onChange={e => setSkills(e.target.value)} value={skills} />
             </div>
 
             <button className='w-28 py-3 mt-4 bg-black text-white rounded'>ADD</button>

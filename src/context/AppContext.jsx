@@ -1,100 +1,69 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
-import { useAuth, useUser } from "@clerk/clerk-react";
+import { useAuth } from "@clerk/clerk-react";
 
 export const AppContext = createContext();
 
-export const AppContextProvider = (props) => {
+const AppContextProvider = ({ children }) => {
+  const [showRecruiterLogin, setShowRecruiterLogin] = useState(false);
+  const [jobs, setJobs] = useState([]);
+  const [searchFilter, setSearchFilter] = useState({ title: "", location: "" });
+  const [isSearched, setIsSearched] = useState(false);
+  const [companyToken, setCompanyToken] = useState(null);
+  const [companyData, setCompanyData] = useState(null);
 
-    const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const { getToken } = useAuth(); // Clerk JWT
 
-    const { user } = useUser();
-    const { getToken } = useAuth();
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-    const [jobs, setJobs] = useState([]);
-    const [showRecruiterLogin, setShowRecruiterLogin] = useState(false);
-    const [companyToken, setCompanyToken] = useState(localStorage.getItem('companyToken'));
-    const [companyData, setCompanyData] = useState(null);
-
-    const [userData, setUserData] = useState(null);
-    const [userToken, setUserToken] = useState(null);
-
-    // Function to fetch all jobs
-    const fetchJobs = async () => {
-        try {
-            const { data } = await axios.get(backendUrl + '/api/jobs');
-            if (data.success) {
-                setJobs(data.jobs);
-            } else {
-                toast.error(data.message);
-            }
-        } catch (error) {
-            toast.error(error.message);
-        }
+  // 🔹 Load company token from localStorage on mount
+  useEffect(() => {
+    const token = localStorage.getItem('companyToken')
+    if (token) {
+      setCompanyToken(token)
+      console.log('✅ Loaded company token from localStorage')
     }
+  }, [])
 
-    // Function to fetch Company Data
-    const fetchCompanyData = async () => {
-        try {
-            const { data } = await axios.get(backendUrl + '/api/company/data', { headers: { token: companyToken } });
-            if (data.success) {
-                setCompanyData(data.company);
-            } else {
-                toast.error(data.message);
-            }
-        } catch (error) {
-            toast.error(error.message);
-        }
+  // 🔹 Fetch jobs (public route, no auth needed)
+  const fetchJobs = async () => {
+    try {
+      const { data } = await axios.get(`${backendUrl}/api/jobs`);
+      if (data.success) {
+        setJobs(data.jobs);
+      }
+    } catch (error) {
+      console.error("Failed to fetch jobs:", error);
+      setJobs([]);
     }
+  };
 
-    // Function to fetch User Data (Deenivalla Login Issue fix avthundi)
-    const fetchUserData = async () => {
-        try {
-            const token = await getToken();
-            setUserToken(token);
+  // 🔹 Auto-fetch jobs on mount
+  useEffect(() => {
+    fetchJobs();
+  }, []);
 
-            const { data } = await axios.get(backendUrl + '/api/users/user', { 
-                headers: { Authorization: `Bearer ${token}` } 
-            });
-
-            if (data.success) {
-                setUserData(data.user);
-            }
-        } catch (error) {
-            console.log(error.message);
-        }
-    }
-
-    useEffect(() => {
-        fetchJobs();
-    }, []);
-
-    useEffect(() => {
-        if (companyToken) {
-            fetchCompanyData();
-        }
-    }, [companyToken]);
-
-    useEffect(() => {
-        if (user) {
-            fetchUserData();
-        }
-    }, [user]);
-
-    const value = {
-        setJobs, jobs,
-        showRecruiterLogin, setShowRecruiterLogin,
+  return (
+    <AppContext.Provider
+      value={{
+        showRecruiterLogin,
+        setShowRecruiterLogin,
+        jobs,
+        searchFilter,
+        setSearchFilter,
+        isSearched,
+        setIsSearched,
         backendUrl,
-        companyToken, setCompanyToken,
-        companyData, setCompanyData,
-        userData, setUserData,
-        userToken, setUserToken,
-    }
+        companyToken,
+        setCompanyToken,
+        companyData,
+        setCompanyData,
+        fetchJobs
+      }}
+    >
+      {children}
+    </AppContext.Provider>
+  );
+};
 
-    return (
-        <AppContext.Provider value={value}>
-            {props.children}
-        </AppContext.Provider>
-    )
-}
+export default AppContextProvider;
